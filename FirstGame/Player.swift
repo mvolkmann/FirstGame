@@ -33,11 +33,15 @@ class Player: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func moveTo(_ point: CGPoint, duration: TimeInterval) {
+        let action = SKAction.move(to: point, duration: duration)
+        run(action)
+    }
+
     func walk() {
         guard let walkTextures else {
             preconditionFailure("Failed to find player textures.")
         }
-        print("\(#fileID) \(#function) walkTextures =", walkTextures)
         startAnimation(
             textures: walkTextures,
             speed: 0.25,
