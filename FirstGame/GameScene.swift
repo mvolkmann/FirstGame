@@ -15,11 +15,11 @@ class GameScene: SKScene {
         let fgHeight = 140.0
         let fg = SKSpriteNode(imageNamed: "foreground_1")
         fg.zPosition = Layer.foreground.rawValue
-        fg.anchorPoint = CGPoint(x: 0, y: 1)
+        fg.anchorPoint = .upperLeft
         fg.position = CGPoint(x: 0, y: fgHeight)
         addChild(fg)
 
-        player.anchorPoint = CGPoint(x: 0.5, y: 0)
+        player.anchorPoint = .bottom
         player.position = CGPoint(x: size.width / 2, y: fgHeight)
         player.setupConstraints(floor: fg.frame.maxY)
         addChild(player)
