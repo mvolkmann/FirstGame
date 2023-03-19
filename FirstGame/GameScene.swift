@@ -3,15 +3,15 @@ import SpriteKit
 
 class GameScene: SKScene {
     // Constants
-    let minDropSpeed = 0.12 // fastest
-    let maxDropSpeed = 1.0 // slowest
+    private let minDropSpeed = 0.12 // fastest
+    private let maxDropSpeed = 1.0 // slowest
 
-    var dropCount = 10
-    var dropSpeed = 1.0
-    var isMoving = false
-    var lastPosition: CGPoint?
-    var level = 1
-    let player = Player()
+    private var dropCount = 10
+    private var dropSpeed = 1.0
+    private var isMoving = false
+    private var lastPosition: CGPoint?
+    private var level = 1
+    private let player = Player()
 
     override func didMove(to view: SKView) {
         let bg = SKSpriteNode(imageNamed: "background_1")
@@ -37,7 +37,7 @@ class GameScene: SKScene {
         spawnGloops()
     }
 
-    func spawnGloop() {
+    private func spawnGloop() {
         let gloop = Collectible(type: CollectibleType.gloop)
 
         let margin = gloop.size.width * 2
@@ -54,7 +54,7 @@ class GameScene: SKScene {
         gloop.drop(duration: TimeInterval(1.0), level: player.frame.minY)
     }
 
-    func spawnGloops() {
+    private func spawnGloops() {
         let dropCount = level * 10
         let proposedSpeed = 1.0 /
             (Double(level) + (Double(level) / Double(dropCount)))
@@ -101,7 +101,7 @@ class GameScene: SKScene {
         }
     }
 
-    func touchMoved(toPoint point: CGPoint) {
+    private func touchMoved(toPoint point: CGPoint) {
         guard isMoving else { return }
 
         let newPoint = CGPoint(x: point.x, y: player.position.y)
@@ -114,7 +114,8 @@ class GameScene: SKScene {
         lastPosition = newPoint
     }
 
-    func touchUp(atPoint point: CGPoint) {
+    // This is called when a touch ends (finger is removed).
+    private func touchUp(atPoint point: CGPoint) {
         isMoving = false
     }
 }
