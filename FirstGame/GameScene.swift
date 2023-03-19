@@ -2,11 +2,15 @@ import GameplayKit
 import SpriteKit
 
 class GameScene: SKScene {
-    var dropCount = 10
-    var dropSpeed = 1.0
-    var level = 1
+    // Constants
     let minDropSpeed = 0.12 // fastest
     let maxDropSpeed = 1.0 // slowest
+
+    var dropCount = 10
+    var dropSpeed = 1.0
+    var isMoving = false
+    var lastPosition: CGPoint?
+    var level = 1
     let player = Player()
 
     override func didMove(to view: SKView) {
@@ -69,7 +73,51 @@ class GameScene: SKScene {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            player.moveTo(touch.location(in: self))
+            let point = touch.location(in: self)
+            let node = atPoint(point)
+            if node.name == "player" { isMoving = true }
+            player.moveTo(point)
         }
+    }
+
+    override func touchesCancelled(
+        _ touches: Set<UITouch>,
+        with event: UIEvent?
+    ) {
+        for touch in touches {
+            touchUp(atPoint: touch.location(in: self))
+        }
+    }
+
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            touchUp(atPoint: touch.location(in: self))
+        }
+    }
+
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for t in touches {
+            touchMoved(toPoint: t.location(in: self))
+        }
+    }
+
+    func touchMoved(toPoint point: CGPoint) {
+        guard isMoving else { return }
+
+        let newPoint = CGPoint(x: point.x, y: player.position.y)
+        player.position = newPoint
+
+        let recordedPosition = lastPosition ?? player.position
+        if recordedPosition.x > newPoint.x {
+            player.xScale = -abs(xScale)
+        } else {
+            player.xScale = abs(xScale)
+        }
+
+        lastPosition = newPoint
+    }
+
+    func touchUp(atPoint point: CGPoint) {
+        isMoving = false
     }
 }
