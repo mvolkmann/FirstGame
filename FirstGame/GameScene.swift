@@ -2,6 +2,11 @@ import GameplayKit
 import SpriteKit
 
 class GameScene: SKScene {
+    var dropCount = 10
+    var dropSpeed = 1.0
+    var level = 1
+    let minDropSpeed = 0.12 // fastest
+    let maxDropSpeed = 1.0 // slowest
     let player = Player()
 
     override func didMove(to view: SKView) {
@@ -46,14 +51,19 @@ class GameScene: SKScene {
     }
 
     func spawnGloops() {
-        let wait = SKAction.wait(forDuration: TimeInterval(1.0))
+        let dropCount = level * 10
+        let proposedSpeed = 1.0 /
+            (Double(level) + (Double(level) / Double(dropCount)))
+        dropSpeed = max(min(proposedSpeed, maxDropSpeed), minDropSpeed)
+
+        let wait = SKAction.wait(forDuration: TimeInterval(dropSpeed))
         // Use `unowned` instead of `weak` when you are
         // certain that `self` will never become `nil`.
         // Here the `GameScene` object never goes away.
         let spawn = SKAction.run { [unowned self] in self.spawnGloop() }
         let sequence = SKAction.sequence([wait, spawn])
         // `repeat` is a keyword.
-        let repeatAction = SKAction.repeat(sequence, count: 10)
+        let repeatAction = SKAction.repeat(sequence, count: dropCount)
         run(repeatAction, withKey: "gloops")
     }
 
