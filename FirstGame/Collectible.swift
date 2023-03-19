@@ -6,21 +6,21 @@ enum CollectibleType: String {
 }
 
 class Collectible: SKSpriteNode {
-    private var collectibleType: CollectibleType = .none
+    private var type: CollectibleType = .none
 
-    init(collectibleType: CollectibleType) {
+    init(type: CollectibleType) {
         var texture: SKTexture!
-        self.collectibleType = collectibleType
-        switch self.collectibleType {
+        switch type {
         case .gloop:
             texture = SKTexture(imageNamed: "gloop")
         case .none:
-            break
+            fatalError("Invalid Collectible type \(type)")
         }
 
         super.init(texture: texture, color: SKColor.clear, size: texture.size())
 
-        name = "co_\(collectibleType)"
+        self.type = type
+        name = "co_\(type)"
         anchorPoint = .top
         zPosition = Layer.collectible.rawValue
     }

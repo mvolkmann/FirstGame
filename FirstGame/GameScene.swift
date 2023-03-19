@@ -25,6 +25,16 @@ class GameScene: SKScene {
         addChild(player)
 
         player.walk()
+        spawnGloop()
+    }
+
+    func spawnGloop() {
+        let gloop = Collectible(type: CollectibleType.gloop)
+        gloop.position = CGPoint(
+            x: player.position.x,
+            y: player.position.y * 2.5
+        )
+        addChild(gloop)
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
