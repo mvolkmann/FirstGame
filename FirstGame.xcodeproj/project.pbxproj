@@ -18,6 +18,7 @@
 		1A12C38F29C631D3002D7B79 /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A12C38E29C631D3002D7B79 /* CGPointExtension.swift */; };
 		1A12C39229C63509002D7B79 /* Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A12C39129C63509002D7B79 /* Layer.swift */; };
 		1A12C39429C730BD002D7B79 /* Collectible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A12C39329C730BD002D7B79 /* Collectible.swift */; };
+		1A12C39629C75B5D002D7B79 /* PhysicsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A12C39529C75B5D002D7B79 /* PhysicsCategory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		1A12C38E29C631D3002D7B79 /* CGPointExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
 		1A12C39129C63509002D7B79 /* Layer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layer.swift; sourceTree = "<group>"; };
 		1A12C39329C730BD002D7B79 /* Collectible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collectible.swift; sourceTree = "<group>"; };
+		1A12C39529C75B5D002D7B79 /* PhysicsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsCategory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				1A12C39129C63509002D7B79 /* Layer.swift */,
+				1A12C39529C75B5D002D7B79 /* PhysicsCategory.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -170,6 +173,7 @@
 				1A12C38A29C60867002D7B79 /* Player.swift in Sources */,
 				1A12C37929C5F6DF002D7B79 /* GameScene.swift in Sources */,
 				1A12C38F29C631D3002D7B79 /* CGPointExtension.swift in Sources */,
+				1A12C39629C75B5D002D7B79 /* PhysicsCategory.swift in Sources */,
 				1A12C39229C63509002D7B79 /* Layer.swift in Sources */,
 				1A12C37B29C5F6DF002D7B79 /* GameViewController.swift in Sources */,
 				1A12C38C29C60917002D7B79 /* SKSpriteNodeExtension.swift in Sources */,

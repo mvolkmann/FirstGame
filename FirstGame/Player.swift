@@ -26,6 +26,16 @@ class Player: SKSpriteNode {
         anchorPoint = .center // defined in CGPointExtension.swift
 
         zPosition = Layer.player.rawValue
+
+        physicsBody = SKPhysicsBody(
+            rectangleOf: size,
+            // Offset to align the physics body with the player node (p. 77).
+            center: CGPoint(x: 0, y: size.height / 2)
+        )
+        physicsBody?.affectedByGravity = false
+        physicsBody?.categoryBitMask = PhysicsCategory.player
+        physicsBody?.contactTestBitMask = PhysicsCategory.collectible
+        physicsBody?.collisionBitMask = PhysicsCategory.none
     }
 
     @available(*, unavailable)

@@ -23,11 +23,25 @@ class Collectible: SKSpriteNode {
         name = "co_\(type)"
         anchorPoint = .top
         zPosition = Layer.collectible.rawValue
+
+        physicsBody = SKPhysicsBody(
+            rectangleOf: size,
+            center: CGPoint(x: 0, y: -size.height / 2)
+        )
+        physicsBody?.affectedByGravity = false
+        physicsBody?.categoryBitMask = PhysicsCategory.collectible
+        physicsBody?.contactTestBitMask =
+            PhysicsCategory.player | PhysicsCategory.foreground
+        physicsBody?.collisionBitMask = PhysicsCategory.none
     }
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func collected() {
+        run(SKAction.removeFromParent())
     }
 
     func drop(duration: TimeInterval, level: CGFloat) {
@@ -59,5 +73,9 @@ class Collectible: SKSpriteNode {
 
         // This performs all the actions defined above.
         run(sequence, withKey: "drop")
+    }
+
+    func missed() {
+        run(SKAction.removeFromParent())
     }
 }

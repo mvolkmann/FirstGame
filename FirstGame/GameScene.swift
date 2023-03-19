@@ -21,17 +21,23 @@ class GameScene: SKScene {
         bg.position = .zero
         addChild(bg)
 
-        let fgHeight = 140.0
         let fg = SKSpriteNode(imageNamed: "foreground_1")
         fg.zPosition = Layer.foreground.rawValue
-        fg.anchorPoint = .upperLeft
-        fg.position = CGPoint(x: 0, y: fgHeight)
+        fg.anchorPoint = .lowerLeft
+        fg.position = .lowerLeft
+        fg.physicsBody = SKPhysicsBody(edgeLoopFrom: fg.frame)
+        fg.physicsBody?.affectedByGravity = false
+        fg.physicsBody?.categoryBitMask = PhysicsCategory.foreground
+        fg.physicsBody?.contactTestBitMask = PhysicsCategory.collectible
+        fg.physicsBody?.collisionBitMask = PhysicsCategory.none
         addChild(fg)
 
         player.anchorPoint = .bottom
-        player.position = CGPoint(x: size.width / 2, y: fgHeight)
+        player.position = CGPoint(x: size.width / 2, y: fg.frame.maxY)
         player.setupConstraints(floor: fg.frame.maxY)
         addChild(player)
+
+        physicsWorld.contactDelegate = self
 
         player.walk()
         spawnGloops()
@@ -117,5 +123,31 @@ class GameScene: SKScene {
     // This is called when a touch ends (finger is removed).
     private func touchUp(atPoint point: CGPoint) {
         isMoving = false
+    }
+}
+
+extension GameScene: SKPhysicsContactDelegate {
+    func didBegin(_ contact: SKPhysicsContact) {
+        let bodyA = contact.bodyA
+        let bodyB = contact.bodyB
+        let maskA = bodyA.categoryBitMask
+        let maskB = bodyB.categoryBitMask
+        let collision = maskA | maskB
+
+        // Determine if either PhysicsBody is associated with a Collectible.
+        let body = maskA == PhysicsCategory.collectible ?
+            bodyA.node : bodyB.node
+        if let sprite = body as? Collectible {
+            // If a Collectible collided with the player ...
+            if collision ==
+                PhysicsCategory.collectible | PhysicsCategory.player {
+                sprite.collected()
+            }
+            // If a Collectible collided with the floor ...
+            if collision ==
+                PhysicsCategory.collectible | PhysicsCategory.foreground {
+                sprite.missed()
+            }
+        }
     }
 }
