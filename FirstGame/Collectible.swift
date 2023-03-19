@@ -30,21 +30,28 @@ class Collectible: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func drop(speed: TimeInterval, level: CGFloat) {
+    func drop(duration: TimeInterval, level: CGFloat) {
         // This is where the drop will end which is on the floor.
-        let pos = CGPoint(x: position.x, y: level)
+        let endPoint = CGPoint(x: position.x, y: level)
 
-        // This causes the drop to stretch like a "drip".
+        print("\(#fileID) \(#function) self =", self)
+
+        // This causes the drop to fade into view over a quarter of a second.
+        // It seems to have no effect, probably because
+        // the drop has no size when this runs.
+        let appear = SKAction.fadeAlpha(to: 1.0, duration: 0.25)
+
+        // The drop begins with a size of 0 x 0.
+        // This causes the drop to stretch like a liquid drip".
         let scaleX = SKAction.scaleX(to: 1.0, duration: 1.0)
         let scaleY = SKAction.scaleY(to: 1.3, duration: 1.0)
         let scale = SKAction.group([scaleX, scaleY])
 
-        // This causes the drop to fade into view.
-        let appear = SKAction.fadeAlpha(to: 1.0, duration: 0.25)
-
         // This causes the drop to move from its current position to the floor.
-        let move = SKAction.move(to: pos, duration: speed)
+        let move = SKAction.move(to: endPoint, duration: speed)
 
+        // let sequence = SKAction.sequence([appear]) // not visible!
+        // let sequence = SKAction.sequence([scale, move]) // same as next line
         let sequence = SKAction.sequence([appear, scale, move])
 
         // This causes the drop to shrink horizontally before falling.

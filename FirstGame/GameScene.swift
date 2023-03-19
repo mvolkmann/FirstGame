@@ -25,17 +25,36 @@ class GameScene: SKScene {
         addChild(player)
 
         player.walk()
-        spawnGloop()
+        spawnGloops()
     }
 
     func spawnGloop() {
         let gloop = Collectible(type: CollectibleType.gloop)
+
+        let margin = gloop.size.width * 2
+        let minX = frame.minX + margin
+        let maxX = frame.maxX - margin
+
         gloop.position = CGPoint(
-            x: player.position.x,
-            y: player.position.y * 2.5
+            x: CGFloat.random(in: minX ... maxX),
+            y: player.position.y * 5
         )
+
         addChild(gloop)
-        gloop.drop(speed: TimeInterval(1.0), level: player.frame.minY)
+
+        gloop.drop(duration: TimeInterval(1.0), level: player.frame.minY)
+    }
+
+    func spawnGloops() {
+        let wait = SKAction.wait(forDuration: TimeInterval(1.0))
+        // Use `unowned` instead of `weak` when you are
+        // certain that `self` will never become `nil`.
+        // Here the `GameScene` object never goes away.
+        let spawn = SKAction.run { [unowned self] in self.spawnGloop() }
+        let sequence = SKAction.sequence([wait, spawn])
+        // `repeat` is a keyword.
+        let repeatAction = SKAction.repeat(sequence, count: 10)
+        run(repeatAction, withKey: "gloops")
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
