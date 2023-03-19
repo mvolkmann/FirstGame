@@ -24,6 +24,7 @@ class GameScene: SKScene {
         player.anchorPoint = CGPoint(x: 0.5, y: 0)
         // player.position = CGPoint(x: size.width / 2, y: fg.frame.maxY)
         player.position = CGPoint(x: size.width / 2, y: fgHeight)
+        player.setupConstraints(floor: fg.frame.maxY)
         addChild(player)
 
         player.walk()

@@ -34,8 +34,15 @@ class Player: SKSpriteNode {
     }
 
     func moveTo(_ point: CGPoint, duration: TimeInterval) {
+        xScale = (point.x < position.x ? -1 : 1) * abs(xScale)
         let action = SKAction.move(to: point, duration: duration)
         run(action)
+    }
+
+    func setupConstraints(floor: CGFloat) {
+        let range = SKRange(lowerLimit: floor, upperLimit: floor)
+        let constraint = SKConstraint.positionY(range)
+        constraints = [constraint]
     }
 
     func walk() {
