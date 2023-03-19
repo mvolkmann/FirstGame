@@ -15,14 +15,11 @@ class GameScene: SKScene {
         let fgHeight = 140.0
         let fg = SKSpriteNode(imageNamed: "foreground_1")
         fg.zPosition = Layer.foreground.rawValue
-        // fg.anchorPoint = .zero
         fg.anchorPoint = CGPoint(x: 0, y: 1)
-        // fg.position = .zero
         fg.position = CGPoint(x: 0, y: fgHeight)
         addChild(fg)
 
         player.anchorPoint = CGPoint(x: 0.5, y: 0)
-        // player.position = CGPoint(x: size.width / 2, y: fg.frame.maxY)
         player.position = CGPoint(x: size.width / 2, y: fgHeight)
         player.setupConstraints(floor: fg.frame.maxY)
         addChild(player)
@@ -30,14 +27,9 @@ class GameScene: SKScene {
         player.walk()
     }
 
-    func touchDown(atPoint point: CGPoint) {
-        print("\(#fileID) \(#function) point =", point)
-        player.moveTo(point, duration: 1.0)
-    }
-
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            touchDown(atPoint: touch.location(in: self))
+            player.moveTo(touch.location(in: self))
         }
     }
 }

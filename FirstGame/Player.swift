@@ -33,7 +33,11 @@ class Player: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func moveTo(_ point: CGPoint, duration: TimeInterval) {
+    func moveTo(_ point: CGPoint) {
+        let dx = point.x - position.x
+        let dy = point.y - position.y
+        let distance = hypot(dx, dy)
+        let duration = TimeInterval(distance / 1.5) / 255
         xScale = (point.x < position.x ? -1 : 1) * abs(xScale)
         let action = SKAction.move(to: point, duration: duration)
         run(action)
