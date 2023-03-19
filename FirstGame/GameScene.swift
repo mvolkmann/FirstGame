@@ -13,6 +13,9 @@ class GameScene: SKScene {
     private var level = 1
     private let player = Player()
 
+    private var levelLabel = SKLabelNode()
+    private var scoreLabel = SKLabelNode()
+
     override func didMove(to view: SKView) {
         let bg = SKSpriteNode(imageNamed: "background_1")
         bg.zPosition = Layer.background.rawValue
@@ -32,6 +35,8 @@ class GameScene: SKScene {
         fg.physicsBody?.collisionBitMask = PhysicsCategory.none
         addChild(fg)
 
+        setupLabels()
+
         player.anchorPoint = .bottom
         player.position = CGPoint(x: size.width / 2, y: fg.frame.maxY)
         player.setupConstraints(floor: fg.frame.maxY)
@@ -41,6 +46,30 @@ class GameScene: SKScene {
 
         player.walk()
         spawnGloops()
+    }
+
+    private func setupLabels() {
+        scoreLabel.name = "score"
+        scoreLabel.fontName = "Nosifer"
+        scoreLabel.fontColor = .yellow
+        scoreLabel.fontSize = 35
+        scoreLabel.horizontalAlignmentMode = .right
+        scoreLabel.verticalAlignmentMode = .center
+        scoreLabel.zPosition = Layer.ui.rawValue
+        scoreLabel.position = CGPoint(x: frame.maxX - 50, y: viewTop() - 100)
+        scoreLabel.text = "Score: 0"
+        addChild(scoreLabel)
+
+        levelLabel.name = "level"
+        levelLabel.fontName = "Nosifer"
+        levelLabel.fontColor = .yellow
+        levelLabel.fontSize = 35
+        levelLabel.horizontalAlignmentMode = .left
+        levelLabel.verticalAlignmentMode = .center
+        levelLabel.zPosition = Layer.ui.rawValue
+        levelLabel.position = CGPoint(x: frame.minX + 50, y: viewTop() - 100)
+        levelLabel.text = "Level: \(level)"
+        addChild(levelLabel)
     }
 
     private func spawnGloop() {

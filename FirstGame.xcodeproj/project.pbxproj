@@ -19,6 +19,8 @@
 		1A12C39229C63509002D7B79 /* Layer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A12C39129C63509002D7B79 /* Layer.swift */; };
 		1A12C39429C730BD002D7B79 /* Collectible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A12C39329C730BD002D7B79 /* Collectible.swift */; };
 		1A12C39629C75B5D002D7B79 /* PhysicsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A12C39529C75B5D002D7B79 /* PhysicsCategory.swift */; };
+		1A12C3B529C78D73002D7B79 /* Nosifer-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A12C3B429C78D73002D7B79 /* Nosifer-Regular.ttf */; };
+		1A12C3B829C791C1002D7B79 /* SKScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A12C3B729C791C1002D7B79 /* SKScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +37,9 @@
 		1A12C39129C63509002D7B79 /* Layer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layer.swift; sourceTree = "<group>"; };
 		1A12C39329C730BD002D7B79 /* Collectible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collectible.swift; sourceTree = "<group>"; };
 		1A12C39529C75B5D002D7B79 /* PhysicsCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhysicsCategory.swift; sourceTree = "<group>"; };
+		1A12C3B429C78D73002D7B79 /* Nosifer-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nosifer-Regular.ttf"; sourceTree = "<group>"; };
+		1A12C3B629C78DAA002D7B79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1A12C3B729C791C1002D7B79 /* SKScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +72,7 @@
 		1A12C37129C5F6DF002D7B79 /* FirstGame */ = {
 			isa = PBXGroup;
 			children = (
+				1A12C3B629C78DAA002D7B79 /* Info.plist */,
 				1A12C37A29C5F6DF002D7B79 /* GameViewController.swift */,
 				1A12C37829C5F6DF002D7B79 /* GameScene.swift */,
 				1A12C38929C60867002D7B79 /* Player.swift */,
@@ -74,6 +80,7 @@
 				1A12C37F29C5F6E0002D7B79 /* Assets.xcassets */,
 				1A12C37229C5F6DF002D7B79 /* AppDelegate.swift */,
 				1A12C38D29C631BE002D7B79 /* Extensions */,
+				1A12C3B329C78D17002D7B79 /* Fonts */,
 				1A12C39029C634F2002D7B79 /* Models */,
 				1A12C38129C5F6E0002D7B79 /* LaunchScreen.storyboard */,
 				1A12C37C29C5F6DF002D7B79 /* Main.storyboard */,
@@ -85,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				1A12C38E29C631D3002D7B79 /* CGPointExtension.swift */,
+				1A12C3B729C791C1002D7B79 /* SKScene.swift */,
 				1A12C38B29C60917002D7B79 /* SKSpriteNodeExtension.swift */,
 			);
 			path = Extensions;
@@ -97,6 +105,14 @@
 				1A12C39529C75B5D002D7B79 /* PhysicsCategory.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		1A12C3B329C78D17002D7B79 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				1A12C3B429C78D73002D7B79 /* Nosifer-Regular.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -157,6 +173,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A12C3B529C78D73002D7B79 /* Nosifer-Regular.ttf in Resources */,
 				1A12C37E29C5F6DF002D7B79 /* Main.storyboard in Resources */,
 				1A12C38029C5F6E0002D7B79 /* Assets.xcassets in Resources */,
 				1A12C38329C5F6E0002D7B79 /* LaunchScreen.storyboard in Resources */,
@@ -174,6 +191,7 @@
 				1A12C37929C5F6DF002D7B79 /* GameScene.swift in Sources */,
 				1A12C38F29C631D3002D7B79 /* CGPointExtension.swift in Sources */,
 				1A12C39629C75B5D002D7B79 /* PhysicsCategory.swift in Sources */,
+				1A12C3B829C791C1002D7B79 /* SKScene.swift in Sources */,
 				1A12C39229C63509002D7B79 /* Layer.swift in Sources */,
 				1A12C37B29C5F6DF002D7B79 /* GameViewController.swift in Sources */,
 				1A12C38C29C60917002D7B79 /* SKSpriteNodeExtension.swift in Sources */,
@@ -327,6 +345,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4BG3523GAZ;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FirstGame/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -355,6 +374,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4BG3523GAZ;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FirstGame/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

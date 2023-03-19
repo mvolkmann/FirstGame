@@ -20,7 +20,9 @@ class GameViewController: UIViewController {
             )
             view.presentScene(scene)
             view.ignoresSiblingOrder = false
-            view.showsPhysics = true
+            // When true, this shows light blue boxes
+            // around physics bodies for debugging.
+            view.showsPhysics = false
             view.showsFPS = true // frames per second
             view.showsNodeCount = true
         }
