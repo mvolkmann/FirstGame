@@ -35,6 +35,7 @@ class GameScene: SKScene {
             y: player.position.y * 2.5
         )
         addChild(gloop)
+        gloop.drop(speed: TimeInterval(1.0), level: player.frame.minY)
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
