@@ -107,12 +107,9 @@ class GameScene: SKScene {
         let newPoint = CGPoint(x: point.x, y: player.position.y)
         player.position = newPoint
 
-        let recordedPosition = lastPosition ?? player.position
-        if recordedPosition.x > newPoint.x {
-            player.xScale = -abs(xScale)
-        } else {
-            player.xScale = abs(xScale)
-        }
+        // Update facing direction of player.
+        let oldPoint = lastPosition ?? player.position
+        player.xScale = (newPoint.x < oldPoint.x ? -1 : 1) * abs(xScale)
 
         lastPosition = newPoint
     }
