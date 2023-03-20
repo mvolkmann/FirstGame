@@ -1,10 +1,11 @@
 import SpriteKit
 
 enum PlayerAnimationType: String {
-    case walk
+    case walk, die
 }
 
 class Player: SKSpriteNode {
+    private var dieTextures: [SKTexture]?
     private var walkTextures: [SKTexture]?
 
     init() {
@@ -17,6 +18,12 @@ class Player: SKSpriteNode {
             prefix: "blob-walk_",
             startsAt: 0,
             stopsAt: 2
+        )
+        dieTextures = loadTextures(
+            atlas: "blob",
+            prefix: "blob-die_",
+            startsAt: 0,
+            stopsAt: 0
         )
 
         name = "player"
@@ -41,6 +48,25 @@ class Player: SKSpriteNode {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func die() {
+        guard let dieTextures else {
+            preconditionFailure("Failed to find die textures.")
+        }
+
+        // Stop the walk animation.
+        removeAction(forKey: PlayerAnimationType.walk.rawValue)
+
+        // Run the die animation.
+        startAnimation(
+            textures: dieTextures,
+            speed: 0.25,
+            name: PlayerAnimationType.die.rawValue,
+            count: 0,
+            resize: true,
+            restore: true
+        )
     }
 
     func moveTo(_ point: CGPoint) {

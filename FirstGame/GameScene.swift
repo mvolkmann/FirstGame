@@ -4,16 +4,29 @@ import SpriteKit
 class GameScene: SKScene {
     // Constants
     private let minDropSpeed = 0.12 // fastest
-    private let maxDropSpeed = 1.0 // slowest
+    private let maxDropSpeed = 2.0 // slowest
 
     private var dropCount = 10
-    private var dropSpeed = 1.0
+    private var dropSpeed = 2.0
     private var isMoving = false
     private var lastPosition: CGPoint?
-    private var level = 1
+
+    private var level = 1 {
+        didSet {
+            levelLabel.text = "Level: \(level)"
+        }
+    }
+
     private let player = Player()
 
     private var levelLabel = SKLabelNode()
+
+    private var score = 0 {
+        didSet {
+            scoreLabel.text = "Score: \(score)"
+        }
+    }
+
     private var scoreLabel = SKLabelNode()
 
     override func didMove(to view: SKView) {
@@ -46,6 +59,17 @@ class GameScene: SKScene {
 
         player.walk()
         spawnGloops()
+    }
+
+    private func gameOver() {
+        // Remove a repeatable action so the drops stop falling.
+        removeAction(forKey: "gloop")
+
+        // Remove all the drops.
+        enumerateChildNodes(withName: "//co_*") { node, _ in
+            node.removeAction(forKey: "drop")
+            node.physicsBody = nil
+        }
     }
 
     private func setupLabels() {
@@ -171,11 +195,13 @@ extension GameScene: SKPhysicsContactDelegate {
             if collision ==
                 PhysicsCategory.collectible | PhysicsCategory.player {
                 sprite.collected()
+                score += level
             }
             // If a Collectible collided with the floor ...
             if collision ==
                 PhysicsCategory.collectible | PhysicsCategory.foreground {
                 sprite.missed()
+                gameOver()
             }
         }
     }
