@@ -7,6 +7,14 @@ enum CollectibleType: String {
 
 class Collectible: SKSpriteNode {
     private var type: CollectibleType = .none
+    private let playCollectSound = SKAction.playSoundFileNamed(
+        "collect.wav",
+        waitForCompletion: false
+    )
+    private let playMissSound = SKAction.playSoundFileNamed(
+        "miss.wav",
+        waitForCompletion: false
+    )
 
     init(type: CollectibleType) {
         var texture: SKTexture!
@@ -41,7 +49,9 @@ class Collectible: SKSpriteNode {
     }
 
     func collected() {
-        run(SKAction.removeFromParent())
+        let removeFromParent = SKAction.removeFromParent()
+        let group = SKAction.group([playCollectSound, removeFromParent])
+        run(group)
     }
 
     func drop(duration: TimeInterval, level: CGFloat) {
@@ -74,6 +84,8 @@ class Collectible: SKSpriteNode {
     }
 
     func missed() {
-        run(SKAction.removeFromParent())
+        let removeFromParent = SKAction.removeFromParent()
+        let group = SKAction.group([playMissSound, removeFromParent])
+        run(group)
     }
 }
