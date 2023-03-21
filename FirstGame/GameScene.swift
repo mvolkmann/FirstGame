@@ -37,8 +37,6 @@ class GameScene: SKScene {
     private var scoreLabel = SKLabelNode()
 
     private func checkForRemainingDrops() {
-        print("\(#fileID) \(#function) dropsCollected =", dropsCollected)
-        print("\(#fileID) \(#function) dropsExpected =", dropsExpected)
         if dropsCollected == dropsExpected {
             nextLevel()
         }
@@ -106,11 +104,10 @@ class GameScene: SKScene {
     }
 
     private func nextLevel() {
-        print("\(#fileID) \(#function) entered")
         showMessage("Get Ready!")
         let wait = SKAction.wait(forDuration: 2.25)
         run(wait) { [unowned self] in
-            self.level += 1
+            level += 1
             spawnGloops()
         }
     }
