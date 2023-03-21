@@ -74,25 +74,32 @@ class GameScene: SKScene {
     }
 
     private func gameOver() {
+        guard gameInProgress else { return }
+
         showMessage("Game Over\nTap to try again")
 
         gameInProgress = false
         player.die()
 
         // Remove a repeatable action so the drops stop falling.
-        removeAction(forKey: "gloop")
+        removeAction(forKey: "gloops")
 
         // Remove all the drops.
+        // Starting a name with "//" causes it to search
+        // the entire node tree starting at the root.
+        // Names beginning with "co_" are assigned in Collectible.swift.
         enumerateChildNodes(withName: "//co_*") { node, _ in
             node.removeAction(forKey: "drop")
             node.physicsBody = nil
+            node.run(SKAction.removeFromParent())
         }
 
         resetPlayerPosition()
-        popRemainingDrops()
     }
 
     private func hideMessage() {
+        // Starting a name with "//" causes it to search
+        // the entire node tree starting at the root.
         if let messageLabel = childNode(withName: "//message") as? SKLabelNode {
             messageLabel.run(
                 SKAction.sequence([
@@ -109,23 +116,6 @@ class GameScene: SKScene {
         run(wait) { [unowned self] in
             level += 1
             spawnGloops()
-        }
-    }
-
-    private func popRemainingDrops() {
-        var i = 0
-        enumerateChildNodes(withName: "//co_*") { node, _ in
-            // TODO: Why not combine these two waits?
-            let wait1 = SKAction.wait(forDuration: 1)
-            let wait2 = SKAction.wait(
-                forDuration: TimeInterval(0.15 * CGFloat(i))
-            )
-            let removeFromParent = SKAction.removeFromParent()
-            let sequence = SKAction.sequence(
-                [wait1, wait2, removeFromParent]
-            )
-            node.run(sequence)
-            i += 1
         }
     }
 
@@ -247,18 +237,23 @@ class GameScene: SKScene {
         gameInProgress = true
     }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    private func touchDown(atPoint point: CGPoint) {
+        // This handles the case where the game has ended
+        // and the user tapped to start a new game.
         if !gameInProgress {
             spawnGloops()
             return
         }
 
+        let touchedNode = atPoint(point)
+        if touchedNode.name == "player" {
+            isMoving = true
+        }
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
-            let point = touch.location(in: self)
-            let touchedNode = atPoint(point)
-            if touchedNode.name == "player" {
-                isMoving = true
-            }
+            touchDown(atPoint: touch.location(in: self))
         }
     }
 
