@@ -37,6 +37,8 @@ class GameScene: SKScene {
     private var scoreLabel = SKLabelNode()
 
     private func checkForRemainingDrops() {
+        print("\(#fileID) \(#function) dropsCollected =", dropsCollected)
+        print("\(#fileID) \(#function) dropsExpected =", dropsExpected)
         if dropsCollected == dropsExpected {
             nextLevel()
         }
@@ -104,6 +106,7 @@ class GameScene: SKScene {
     }
 
     private func nextLevel() {
+        print("\(#fileID) \(#function) entered")
         showMessage("Get Ready!")
         let wait = SKAction.wait(forDuration: 2.25)
         run(wait) { [unowned self] in
@@ -214,7 +217,7 @@ class GameScene: SKScene {
 
         addChild(gloop)
 
-        gloop.drop(duration: TimeInterval(1.0), level: player.frame.minY)
+        gloop.drop(duration: TimeInterval(1.5), level: player.frame.minY)
     }
 
     private func spawnGloops() {
@@ -316,7 +319,9 @@ extension GameScene: SKPhysicsContactDelegate {
             if collision ==
                 PhysicsCategory.collectible | PhysicsCategory.player {
                 sprite.collected()
+                dropsCollected += 1
                 score += level
+                checkForRemainingDrops()
             }
             // If a Collectible collided with the floor ...
             if collision ==
