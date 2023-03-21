@@ -4,10 +4,16 @@ import SpriteKit
 class GameScene: SKScene {
     // Constants
     private let minDropSpeed = 0.12 // fastest
-    private let maxDropSpeed = 2.0 // slowest
+    private let maxDropSpeed = 1.0 // slowest
 
     private var dropCount = 10
-    private var dropSpeed = 2.0
+    private var dropsCollected = 0
+    private var dropsExpected = 10
+
+    // This determines how long to wait before creating the next drop.
+    private var dropSpeed = 1.0
+
+    private var gameInProgress = false
     private var isMoving = false
     private var lastPosition: CGPoint?
 
@@ -17,9 +23,10 @@ class GameScene: SKScene {
         }
     }
 
-    private let player = Player()
-
     private var levelLabel = SKLabelNode()
+    private let player = Player()
+    private let playerSpeed = 1.5
+    private var prevDropLocation = 0.0
 
     private var score = 0 {
         didSet {
@@ -29,7 +36,15 @@ class GameScene: SKScene {
 
     private var scoreLabel = SKLabelNode()
 
+    private func checkForRemainingDrops() {
+        if dropsCollected == dropsExpected {
+            nextLevel()
+        }
+    }
+
     override func didMove(to view: SKView) {
+        physicsWorld.contactDelegate = self
+
         let bg = SKSpriteNode(imageNamed: "background_1")
         bg.zPosition = Layer.background.rawValue
         bg.anchorPoint = .zero
@@ -39,8 +54,8 @@ class GameScene: SKScene {
 
         let fg = SKSpriteNode(imageNamed: "foreground_1")
         fg.zPosition = Layer.foreground.rawValue
-        fg.anchorPoint = .lowerLeft
-        fg.position = .lowerLeft
+        fg.anchorPoint = .zero
+        fg.position = .zero
         fg.physicsBody = SKPhysicsBody(edgeLoopFrom: fg.frame)
         fg.physicsBody?.affectedByGravity = false
         fg.physicsBody?.categoryBitMask = PhysicsCategory.foreground
@@ -55,13 +70,15 @@ class GameScene: SKScene {
         player.setupConstraints(floor: fg.frame.maxY)
         addChild(player)
 
-        physicsWorld.contactDelegate = self
-
-        player.walk()
-        spawnGloops()
+        showMessage("Tap to start game")
     }
 
     private func gameOver() {
+        showMessage("Game Over\nTap to try again")
+
+        gameInProgress = false
+        player.die()
+
         // Remove a repeatable action so the drops stop falling.
         removeAction(forKey: "gloop")
 
@@ -70,6 +87,59 @@ class GameScene: SKScene {
             node.removeAction(forKey: "drop")
             node.physicsBody = nil
         }
+
+        resetPlayerPosition()
+        popRemainingDrops()
+    }
+
+    private func hideMessage() {
+        if let messageLabel = childNode(withName: "//message") as? SKLabelNode {
+            messageLabel.run(
+                SKAction.sequence([
+                    SKAction.fadeOut(withDuration: 0.25),
+                    SKAction.removeFromParent()
+                ])
+            )
+        }
+    }
+
+    private func nextLevel() {
+        showMessage("Get Ready!")
+        let wait = SKAction.wait(forDuration: 2.25)
+        run(wait) { [unowned self] in
+            self.level += 1
+            spawnGloops()
+        }
+    }
+
+    private func popRemainingDrops() {
+        var i = 0
+        enumerateChildNodes(withName: "//co_*") { node, _ in
+            // TODO: Why not combine these two waits?
+            let wait1 = SKAction.wait(forDuration: 1)
+            let wait2 = SKAction.wait(
+                forDuration: TimeInterval(0.15 * CGFloat(i))
+            )
+            let removeFromParent = SKAction.removeFromParent()
+            let sequence = SKAction.sequence(
+                [wait1, wait2, removeFromParent]
+            )
+            node.run(sequence)
+            i += 1
+        }
+    }
+
+    private func resetPlayerPosition() {
+        let resetPoint = CGPoint(x: frame.midX, y: player.position.y)
+        let distance = hypot(resetPoint.x - player.position.x, 0)
+        let calculatedSpeed = TimeInterval(distance / (playerSpeed * 2)) / 255
+
+        let direction = player.position.x > frame.midX ? "L" : "R"
+        player.moveTo(
+            resetPoint,
+            direction: direction,
+            speed: calculatedSpeed
+        )
     }
 
     private func setupLabels() {
@@ -96,6 +166,40 @@ class GameScene: SKScene {
         addChild(levelLabel)
     }
 
+    func showMessage(_ message: String) {
+        let messageLabel = SKLabelNode()
+        messageLabel.name = "message"
+        messageLabel.position = CGPoint(
+            x: frame.midX,
+            y: player.frame.maxY + 100
+        )
+        messageLabel.zPosition = Layer.ui.rawValue
+        messageLabel.numberOfLines = 2
+
+        let paragraph = NSMutableParagraphStyle()
+        paragraph.alignment = .center
+
+        let attributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: SKColor(
+                red: 251.0 / 255.0,
+                green: 155.0 / 255.0,
+                blue: 24.0 / 255.0,
+                alpha: 1.0
+            ),
+            .backgroundColor: UIColor.clear,
+            .font: UIFont(name: "Nosifer", size: 45.0)!,
+            .paragraphStyle: paragraph
+        ]
+        messageLabel.attributedText = NSAttributedString(
+            string: message,
+            attributes: attributes
+        )
+
+        // Run a fade action and add the label to the scene.
+        messageLabel.run(SKAction.fadeIn(withDuration: 0.25))
+        addChild(messageLabel)
+    }
+
     private func spawnGloop() {
         let gloop = Collectible(type: CollectibleType.gloop)
 
@@ -105,7 +209,7 @@ class GameScene: SKScene {
 
         gloop.position = CGPoint(
             x: CGFloat.random(in: minX ... maxX),
-            y: player.position.y * 5
+            y: player.position.y * 2.5
         )
 
         addChild(gloop)
@@ -114,9 +218,20 @@ class GameScene: SKScene {
     }
 
     private func spawnGloops() {
+        hideMessage()
+        player.walk()
+
+        if !gameInProgress {
+            score = 0
+            level = 1
+        }
+
         let dropCount = level * 10
+        dropsCollected = 0
+        dropsExpected = dropCount
+
         let proposedSpeed = 1.0 /
-            (Double(level) + (Double(level) / Double(dropCount)))
+            (CGFloat(level) + (CGFloat(level) / CGFloat(dropCount)))
         dropSpeed = max(min(proposedSpeed, maxDropSpeed), minDropSpeed)
 
         let wait = SKAction.wait(forDuration: TimeInterval(dropSpeed))
@@ -128,14 +243,22 @@ class GameScene: SKScene {
         // `repeat` is a keyword.
         let repeatAction = SKAction.repeat(sequence, count: dropCount)
         run(repeatAction, withKey: "gloops")
+
+        gameInProgress = true
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if !gameInProgress {
+            spawnGloops()
+            return
+        }
+
         for touch in touches {
             let point = touch.location(in: self)
-            let node = atPoint(point)
-            if node.name == "player" { isMoving = true }
-            player.moveTo(point)
+            let touchedNode = atPoint(point)
+            if touchedNode.name == "player" {
+                isMoving = true
+            }
         }
     }
 
@@ -155,22 +278,20 @@ class GameScene: SKScene {
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches {
-            touchMoved(toPoint: t.location(in: self))
-        }
-    }
-
-    private func touchMoved(toPoint point: CGPoint) {
         guard isMoving else { return }
 
-        let newPoint = CGPoint(x: point.x, y: player.position.y)
-        player.position = newPoint
+        for touch in touches {
+            let point = touch.location(in: self)
 
-        // Update facing direction of player.
-        let oldPoint = lastPosition ?? player.position
-        player.xScale = (newPoint.x < oldPoint.x ? -1 : 1) * abs(xScale)
+            let newPoint = CGPoint(x: point.x, y: player.position.y)
+            player.position = newPoint
 
-        lastPosition = newPoint
+            // Update facing direction of player.
+            let oldPoint = lastPosition ?? player.position
+            player.xScale = (newPoint.x < oldPoint.x ? -1 : 1) * abs(xScale)
+
+            lastPosition = newPoint
+        }
     }
 
     // This is called when a touch ends (finger is removed).

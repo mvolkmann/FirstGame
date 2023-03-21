@@ -69,13 +69,13 @@ class Player: SKSpriteNode {
         )
     }
 
-    func moveTo(_ point: CGPoint) {
-        let dx = point.x - position.x
-        let dy = point.y - position.y
-        let distance = hypot(dx, dy)
-        let duration = TimeInterval(distance / 1.5) / 255
-        xScale = (point.x < position.x ? -1 : 1) * abs(xScale)
-        let action = SKAction.move(to: point, duration: duration)
+    func moveTo(_ point: CGPoint, direction: String, speed: TimeInterval) {
+        // let dx = point.x - position.x
+        // let dy = point.y - position.y
+        // let distance = hypot(dx, dy)
+        // xScale = (point.x < position.x ? -1 : 1) * abs(xScale)
+        xScale = (direction == "L" ? -1 : 1) * abs(xScale)
+        let action = SKAction.move(to: point, duration: speed)
         run(action)
     }
 
@@ -89,6 +89,10 @@ class Player: SKSpriteNode {
         guard let walkTextures else {
             preconditionFailure("Failed to find player textures.")
         }
+
+        // Stop the die animation.
+        removeAction(forKey: PlayerAnimationType.die.rawValue)
+
         startAnimation(
             textures: walkTextures,
             speed: 0.25,

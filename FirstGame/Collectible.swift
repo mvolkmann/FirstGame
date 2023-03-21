@@ -48,8 +48,6 @@ class Collectible: SKSpriteNode {
         // This is where the drop will end which is on the floor.
         let endPoint = CGPoint(x: position.x, y: level)
 
-        print("\(#fileID) \(#function) self =", self)
-
         // This causes the drop to fade into view over a quarter of a second.
         // It seems to have no effect, probably because
         // the drop has no size when this runs.
@@ -62,7 +60,7 @@ class Collectible: SKSpriteNode {
         let scale = SKAction.group([scaleX, scaleY])
 
         // This causes the drop to move from its current position to the floor.
-        let move = SKAction.move(to: endPoint, duration: speed)
+        let move = SKAction.move(to: endPoint, duration: duration)
 
         // let sequence = SKAction.sequence([appear]) // not visible!
         // let sequence = SKAction.sequence([scale, move]) // same as next line
