@@ -71,6 +71,7 @@ class GameScene: SKScene {
         }
 
         let bg = SKSpriteNode(imageNamed: "background_1")
+        bg.name = "background"
         bg.zPosition = Layer.background.rawValue
         bg.anchorPoint = .zero
         // This isn't really needed because 0,0 is the default position.
@@ -78,6 +79,7 @@ class GameScene: SKScene {
         addChild(bg)
 
         let fg = SKSpriteNode(imageNamed: "foreground_1")
+        fg.name = "foreground"
         fg.zPosition = Layer.foreground.rawValue
         fg.anchorPoint = .zero
         fg.position = .zero
@@ -167,6 +169,7 @@ class GameScene: SKScene {
         gloopFlow.setupScrollingView(
             imageNamed: "flow_1",
             layer: Layer.foreground,
+            emitterNamed: "GloopFlow.sks",
             blocks: 3,
             speed: 30
         )
@@ -286,9 +289,18 @@ class GameScene: SKScene {
             return
         }
 
-        let touchedNode = atPoint(point)
-        if touchedNode.name == "player" {
-            isMoving = true
+        /*
+         let touchedNode = atPoint(point)
+         if touchedNode.name == "player" {
+             isMoving = true
+         }
+         */
+
+        let touchedNodes = nodes(at: point)
+        for node in touchedNodes {
+            if node.name == "player" {
+                isMoving = true
+            }
         }
     }
 

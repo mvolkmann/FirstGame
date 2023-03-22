@@ -29,6 +29,7 @@
 		1A691EAB29CA604300DB7A6C /* blob_mumble-1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A691EA529CA604300DB7A6C /* blob_mumble-1.wav */; };
 		1A691EAE29CA76F600DB7A6C /* music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A691EAD29CA76F600DB7A6C /* music.mp3 */; };
 		1A691EB029CA7CEA00DB7A6C /* SKNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A691EAF29CA7CEA00DB7A6C /* SKNodeExtension.swift */; };
+		1A691EB229CA85EA00DB7A6C /* GloopFlow.sks in Resources */ = {isa = PBXBuildFile; fileRef = 1A691EB129CA85EA00DB7A6C /* GloopFlow.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		1A691EA529CA604300DB7A6C /* blob_mumble-1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "blob_mumble-1.wav"; sourceTree = "<group>"; };
 		1A691EAD29CA76F600DB7A6C /* music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = music.mp3; sourceTree = "<group>"; };
 		1A691EAF29CA7CEA00DB7A6C /* SKNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNodeExtension.swift; sourceTree = "<group>"; };
+		1A691EB129CA85EA00DB7A6C /* GloopFlow.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; name = GloopFlow.sks; path = FirstGame/GloopFlow.sks; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +95,7 @@
 				1A12C37829C5F6DF002D7B79 /* GameScene.swift */,
 				1A12C38929C60867002D7B79 /* Player.swift */,
 				1A12C39329C730BD002D7B79 /* Collectible.swift */,
+				1A691EB129CA85EA00DB7A6C /* GloopFlow.sks */,
 				1A12C37F29C5F6E0002D7B79 /* Assets.xcassets */,
 				1A12C37229C5F6DF002D7B79 /* AppDelegate.swift */,
 				1A12C38D29C631BE002D7B79 /* Extensions */,
@@ -214,6 +217,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A12C3B529C78D73002D7B79 /* Nosifer-Regular.ttf in Resources */,
+				1A691EB229CA85EA00DB7A6C /* GloopFlow.sks in Resources */,
 				1A691EA829CA604300DB7A6C /* miss.wav in Resources */,
 				1A691EA729CA604300DB7A6C /* collect.wav in Resources */,
 				1A12C37E29C5F6DF002D7B79 /* Main.storyboard in Resources */,

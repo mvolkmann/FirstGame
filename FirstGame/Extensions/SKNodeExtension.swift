@@ -4,6 +4,7 @@ extension SKNode {
     func setupScrollingView(
         imageNamed name: String,
         layer: Layer,
+        emitterNamed: String?,
         blocks: Int,
         speed: TimeInterval
     ) {
@@ -14,6 +15,12 @@ extension SKNode {
             node.position = CGPoint(x: CGFloat(i) * node.size.width, y: 0)
             node.zPosition = layer.rawValue
             node.endlessScroll(speed: speed)
+
+            if let emitterNamed,
+               let particles = SKEmitterNode(fileNamed: emitterNamed) {
+                node.addChild(particles)
+            }
+
             addChild(node)
         }
     }
