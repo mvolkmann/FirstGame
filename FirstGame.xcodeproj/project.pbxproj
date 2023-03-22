@@ -27,6 +27,8 @@
 		1A691EA929CA604300DB7A6C /* blob_mumble-2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A691EA329CA604300DB7A6C /* blob_mumble-2.wav */; };
 		1A691EAA29CA604300DB7A6C /* blob_mumble-3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A691EA429CA604300DB7A6C /* blob_mumble-3.wav */; };
 		1A691EAB29CA604300DB7A6C /* blob_mumble-1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A691EA529CA604300DB7A6C /* blob_mumble-1.wav */; };
+		1A691EAE29CA76F600DB7A6C /* music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1A691EAD29CA76F600DB7A6C /* music.mp3 */; };
+		1A691EB029CA7CEA00DB7A6C /* SKNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A691EAF29CA7CEA00DB7A6C /* SKNodeExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +54,8 @@
 		1A691EA329CA604300DB7A6C /* blob_mumble-2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "blob_mumble-2.wav"; sourceTree = "<group>"; };
 		1A691EA429CA604300DB7A6C /* blob_mumble-3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "blob_mumble-3.wav"; sourceTree = "<group>"; };
 		1A691EA529CA604300DB7A6C /* blob_mumble-1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "blob_mumble-1.wav"; sourceTree = "<group>"; };
+		1A691EAD29CA76F600DB7A6C /* music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = music.mp3; sourceTree = "<group>"; };
+		1A691EAF29CA7CEA00DB7A6C /* SKNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SKNodeExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +98,7 @@
 				1A12C38D29C631BE002D7B79 /* Extensions */,
 				1A12C3B329C78D17002D7B79 /* Fonts */,
 				1A12C39029C634F2002D7B79 /* Models */,
+				1A691EAC29CA76F600DB7A6C /* Music */,
 				1A691E9F29CA604300DB7A6C /* Sounds */,
 				1A12C38129C5F6E0002D7B79 /* LaunchScreen.storyboard */,
 				1A12C37C29C5F6DF002D7B79 /* Main.storyboard */,
@@ -105,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				1A12C38E29C631D3002D7B79 /* CGPointExtension.swift */,
+				1A691EAF29CA7CEA00DB7A6C /* SKNodeExtension.swift */,
 				1A12C3B729C791C1002D7B79 /* SKScene.swift */,
 				1A12C38B29C60917002D7B79 /* SKSpriteNodeExtension.swift */,
 			);
@@ -139,6 +145,14 @@
 				1A691EA529CA604300DB7A6C /* blob_mumble-1.wav */,
 			);
 			path = Sounds;
+			sourceTree = "<group>";
+		};
+		1A691EAC29CA76F600DB7A6C /* Music */ = {
+			isa = PBXGroup;
+			children = (
+				1A691EAD29CA76F600DB7A6C /* music.mp3 */,
+			);
+			path = Music;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,6 +223,7 @@
 				1A691EAB29CA604300DB7A6C /* blob_mumble-1.wav in Resources */,
 				1A691EA629CA604300DB7A6C /* bubbles.mp3 in Resources */,
 				1A12C38329C5F6E0002D7B79 /* LaunchScreen.storyboard in Resources */,
+				1A691EAE29CA76F600DB7A6C /* music.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,6 +244,7 @@
 				1A12C38C29C60917002D7B79 /* SKSpriteNodeExtension.swift in Sources */,
 				1A12C39429C730BD002D7B79 /* Collectible.swift in Sources */,
 				1A12C37329C5F6DF002D7B79 /* AppDelegate.swift in Sources */,
+				1A691EB029CA7CEA00DB7A6C /* SKNodeExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

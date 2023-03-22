@@ -1,6 +1,14 @@
 import SpriteKit
 
 extension SKSpriteNode {
+    func endlessScroll(speed: TimeInterval) {
+        let moveAction = SKAction.moveBy(x: -size.width, y: 0, duration: speed)
+        let resetAction = SKAction.moveBy(x: size.width, y: 0, duration: 0)
+        let sequence = SKAction.sequence([moveAction, resetAction])
+        let repeatAction = SKAction.repeatForever(sequence)
+        run(repeatAction)
+    }
+
     func loadTextures(
         atlas: String,
         prefix: String,

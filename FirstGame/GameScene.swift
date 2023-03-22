@@ -1,3 +1,4 @@
+import AVFoundation
 import GameplayKit
 import SpriteKit
 
@@ -24,6 +25,8 @@ class GameScene: SKScene {
     }
 
     private var levelLabel = SKLabelNode()
+    private let bubblesAudioNode = SKAudioNode(fileNamed: "bubbles.mp3")
+    private let musicAudioNode = SKAudioNode(fileNamed: "music.mp3")
     private let player = Player()
     private let playerSpeed = 1.5
     private var prevDropLocation = 0.0
@@ -44,6 +47,28 @@ class GameScene: SKScene {
 
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
+
+        // Begin with no sound
+        audioEngine.mainMixerNode.outputVolume = 0.0
+
+        // Prepare to play background music.
+        musicAudioNode.autoplayLooped = true
+        musicAudioNode.isPositional = false
+        addChild(musicAudioNode)
+
+        // Play background music with a volume of zero.
+        musicAudioNode.run(SKAction.changeVolume(to: 0, duration: 0))
+
+        // After one second, increase the volume to 75% over two seconds.
+        run(SKAction.wait(forDuration: 1.0)) { [unowned self] in
+            audioEngine.mainMixerNode.outputVolume = 1.0
+            musicAudioNode.run(SKAction.changeVolume(to: 0.75, duration: 2))
+        }
+
+        run(SKAction.wait(forDuration: 1.5)) { [unowned self] in
+            bubblesAudioNode.autoplayLooped = true
+            addChild(bubblesAudioNode)
+        }
 
         let bg = SKSpriteNode(imageNamed: "background_1")
         bg.zPosition = Layer.background.rawValue
@@ -69,6 +94,8 @@ class GameScene: SKScene {
         player.position = CGPoint(x: size.width / 2, y: fg.frame.maxY)
         player.setupConstraints(floor: fg.frame.maxY)
         addChild(player)
+
+        setupGloopFlow()
 
         showMessage("Tap to start game")
     }
@@ -130,6 +157,20 @@ class GameScene: SKScene {
             direction: direction,
             speed: calculatedSpeed
         )
+    }
+
+    private func setupGloopFlow() {
+        let gloopFlow = SKNode()
+        gloopFlow.name = "gloopFlow"
+        gloopFlow.position = CGPoint(x: 0, y: -60)
+        gloopFlow.zPosition = Layer.foreground.rawValue
+        gloopFlow.setupScrollingView(
+            imageNamed: "flow_1",
+            layer: Layer.foreground,
+            blocks: 3,
+            speed: 30
+        )
+        addChild(gloopFlow)
     }
 
     private func setupLabels() {
